@@ -2,6 +2,10 @@
 
 Based on **nginx:alpine**
 
+Docker hub: https://hub.docker.com/r/demidovich/nginx
+
+Image size: 21Mb
+
 Changes:
 
 * User replace to **www-data**
