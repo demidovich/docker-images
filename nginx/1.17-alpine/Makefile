@@ -1,5 +1,5 @@
-BUILD_TAG ?= nginx/front
-CONTAINER_NAME ?= nginx-front-local
+BUILD_TAG ?= demidovich/nginx:1.17-alpine
+CONTAINER_NAME ?= nginx-alpine-local
 APP_DIR ?= $(PWD)/test/app
 
 .PHONY: Rendering SPA as native HTML for indexation of search crawlers 
@@ -41,6 +41,12 @@ stop: ## Stop container
 
 shell: ## Shell login
 	docker exec -ti $(CONTAINER_NAME) /bin/sh
+
+push: build ## Publish image
+	@echo
+	@docker login
+	@docker push $(BUILD_TAG)
+	@echo
 
 test: stop ## Test container
 	@docker run -d --rm --name $(CONTAINER_NAME) -p 8080:80 -v $(PWD)/conf/hosts:/etc/nginx/hosts -v $(PWD)/test/app:/app $(BUILD_TAG)
