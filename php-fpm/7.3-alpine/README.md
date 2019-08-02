@@ -55,6 +55,7 @@ status          Container status
 stop            Stop container
 shell           Shell login
 push            Publish image
+test            Test image
 v               Show PHP-FPM version
 m               Show PHP-FPM installed modules
 t               Test PHP-FPM config
