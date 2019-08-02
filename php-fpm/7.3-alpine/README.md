@@ -2,7 +2,8 @@
 
 Based on **alpine:3.10**
 
-Docker hub: [https://hub.docker.com/r/demidovich/php-fpm]
+Docker hub: https://hub.docker.com/r/demidovich/php-fpm
+
 Image size: 51Mb
 
 Changes:
@@ -54,6 +55,7 @@ status          Container status
 stop            Stop container
 shell           Shell login
 push            Publish image
+test            Test image
 v               Show PHP-FPM version
 m               Show PHP-FPM installed modules
 t               Test PHP-FPM config
