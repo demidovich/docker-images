@@ -2,7 +2,8 @@
 
 Based on **alpine:3.10**
 
-Docker hub: [https://hub.docker.com/r/demidovich/php-fpm]
+Docker hub: (https://hub.docker.com/r/demidovich/php-fpm)
+
 Image size: 51Mb
 
 Changes:
