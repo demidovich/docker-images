@@ -1,0 +1,66 @@
+#!/bin/bash
+
+cd $(dirname $0)
+
+usage="
+Script to prepare database dump
+Usage examples:
+
+    env [SOURCE_DB=mydb|SOURCE_SCP=file] $(basename "$0")
+
+Where:
+
+    SOURCE_DB   Database name
+    SOURCE_SCP  Link of dump file. May be a scp link.
+
+"
+
+# Get env-file variable
+env_var() {
+    cat $2 | grep $1= | cut -d '=' -f2
+}
+
+if [[ -v SOURCE_DB ]]; then
+    source_db=$SOURCE_DB
+else
+    source_db=$(env_var SOURCE_DB ../.env)
+fi
+
+if [[ -v SOURCE_SCP ]]; then
+    source_scp=$SOURCE_SCP
+else
+    source_scp=$(env_var SOURCE_SCP ../.env)
+fi
+
+if [[ ! -n "${source_db}" && ! -n "${source_scp}" ]]; then
+    echo ""
+    echo "ERROR: missing env variables SOURCE_DB and SOURCE_SCP"
+    echo "$usage" >&2
+    exit 1
+fi
+
+if [[ -n "${source_db}" ]]; then
+
+    pg_dump --no-acl --no-owner $source_db > ../init.sql/01_dump.sql
+    if [ $? -ne 0 ]
+    then
+        echo ""
+        echo "ERROR: error creating dump from \"$source_db\""
+        echo ""
+        exit 1
+    fi
+
+else
+
+    scp ${source_scp} ../init.sql/01_dump.sql
+    if [ $? -ne 0 ]
+    then
+        echo ""
+        echo "ERROR: error copy file over scp from \"$source_scp\""
+        echo ""
+        exit 1
+    fi
+
+fi
+
+exit 0

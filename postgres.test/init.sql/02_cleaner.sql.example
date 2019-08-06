@@ -1,0 +1,1 @@
+UPDATE authors SET name = md5(name), email = md5(email) || '@fake.com';

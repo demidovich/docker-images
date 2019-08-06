@@ -1,0 +1,28 @@
+CREATE TABLE authors
+(
+    id serial,
+    name text,
+    email text,
+    CONSTRAINT authors_pkey PRIMARY KEY (id)
+);
+
+CREATE TABLE books
+(
+    id serial,
+    name text,
+    author_id integer,
+    CONSTRAINT books_pkey PRIMARY KEY (id),
+    CONSTRAINT books_author_id_foreign FOREIGN KEY (author_id)
+        REFERENCES authors (id) MATCH SIMPLE 
+        ON UPDATE CASCADE ON DELETE SET NULL
+);
+
+CREATE INDEX books_author_id_index ON books USING btree (author_id);
+
+INSERT INTO authors (name, email) VALUES ('User Name 1', 'private_email1@email.com');
+INSERT INTO authors (name, email) VALUES ('User Name 2', 'private_email2@email.com');
+INSERT INTO authors (name, email) VALUES ('User Name 3', 'private_email3@email.com');
+
+INSERT INTO books (name, author_id) VALUES ('Book 1', 1);
+INSERT INTO books (name, author_id) VALUES ('Book 2', 2);
+INSERT INTO books (name, author_id) VALUES ('Book 3', 3);
