@@ -2,7 +2,7 @@
 
 Based on **nginx:alpine**
 
-Docker hub: https://hub.docker.com/r/demidovich/nginx
+Docker hub: https://hub.docker.com/r/rutorika/nginx
 
 Image size: 21Mb
 

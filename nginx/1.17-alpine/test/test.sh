@@ -2,11 +2,10 @@
 
 usage() {
 echo "
-$(basename "$0") --url=http://localhost:8080/ --contains=\"Nginx html\"
+$(basename "$0") --url=http://localhost:8080/
 
 where:
-    -u --url          testing url
-    -c --contains     contains content
+    -u --url testing url
 "
 }
 
@@ -15,10 +14,6 @@ do
 case $i in
     -u=*|--url=*)
     url="${i#*=}"
-    shift # past argument=value
-    ;;
-    -c=*|--contains=*)
-    contains="${i#*=}"
     shift # past argument=value
     ;;
     *)
@@ -34,17 +29,13 @@ if [[ ! -n $url ]]; then
     exit 1
 fi
 
-if [[ ! -n $contains ]]; then
-    echo ""
-    echo "Error: not defined \"contains\" parameter"
-    usage
-    exit 1
-fi
+echo ""
+echo "curl -I \"$url\"" 
+status=$(curl -I "$url" | grep -i "HTTP/[[:digit:]].[[:digit:]]")
 
-
-if curl -s "$url" | grep "$contains" > /dev/null
+if echo $status | grep -i "200 ok" > /dev/null
 then
-    echo "$url: OK"
+    echo "$url: 200 OK"
 else
-    echo "$url: Error"
+    echo "$url: $status"
 fi

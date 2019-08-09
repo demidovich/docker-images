@@ -1,6 +1,7 @@
 BUILD_TAG ?= demidovich/nginx:1.17-alpine
 CONTAINER_NAME ?= nginx-alpine-local
 APP_DIR ?= $(PWD)/test/app
+NGINX_PORT ?= 8080
 
 .PHONY: Rendering SPA as native HTML for indexation of search crawlers 
 .DEFAULT_GOAL := help
@@ -15,9 +16,9 @@ clear: stop ## Remove image and containers
 	@docker rm -vf $(CONTAINER_NAME) ||:
 	@docker rmi -f $(BUILD_TAG) ||:
 
-start: stop ## Start container (8080 port)
+start: stop ## Start container ($(NGINX_PORT) port)
 	@echo Starting container $(CONTAINER_NAME) ;\
-	docker run -d --rm --name $(CONTAINER_NAME) -p 8080:80 -v $(PWD)/conf/hosts:/etc/nginx/hosts -v $(APP_DIR):/app $(BUILD_TAG)
+	docker run -d --rm --name $(CONTAINER_NAME) -p $(NGINX_PORT):80 -v $(PWD)/conf/hosts:/etc/nginx/hosts -v $(APP_DIR):/app $(BUILD_TAG)
 	@docker exec -t $(CONTAINER_NAME) nginx -v
 
 start-host: stop ## Start container (80 port, network host)
@@ -49,13 +50,13 @@ push: build ## Publish image
 	@echo
 
 test: stop ## Test container
-	@docker run -d --rm --name $(CONTAINER_NAME) -p 8080:80 -v $(PWD)/conf/hosts:/etc/nginx/hosts -v $(PWD)/test/app:/app $(BUILD_TAG)
+	@docker run -d --rm --name $(CONTAINER_NAME) -p $(NGINX_PORT):80 -v $(PWD)/conf/hosts:/etc/nginx/hosts -v $(PWD)/test/app:/app $(BUILD_TAG)
 	@echo
 	@docker exec -t $(CONTAINER_NAME) nginx -v
 	@echo
 	@docker exec -t $(CONTAINER_NAME) nginx -t
 	@echo
-	@test/test.sh --url=http://localhost:8080/ --contains="Nginx html"
+	@test/test.sh --url=http://localhost:$(NGINX_PORT)/ --contains="Nginx html"
 	@echo
 
 v: ## Show nginx version
