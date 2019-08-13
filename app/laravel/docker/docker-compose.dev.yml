@@ -1,0 +1,40 @@
+version: "3"
+services:
+
+  nginx:
+    build:
+      context: ./
+      dockerfile: docker/dev/nginx.Dockerfile
+      args:
+        UID: 1000
+        GID: 1000
+    image: myproject-nginx-dev
+    container_name: myproject-nginx-dev
+    ports:
+      - "8081:80"
+    volumes:
+      - ./php:/app
+    networks:
+      - myproject_network
+    links:
+      - php-fpm
+    depends_on:
+      - php-fpm
+
+  php-fpm:
+    build:
+      context: ./
+      dockerfile: docker/dev/php-fpm.Dockerfile
+      args:
+        UID: 1000
+        GID: 1000
+    image: myproject-php-fpm-dev
+    container_name: myproject-php-fpm-dev
+    volumes:
+      - ./php:/app
+    networks:
+      - myproject_network
+
+networks:
+  myproject_network:
+    driver: bridge
