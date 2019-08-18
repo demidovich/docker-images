@@ -55,7 +55,9 @@ RUN set -xe \
         #php7-pdo_sqlite \
         #php7-pdo_odbc \
         #php7-sqlite3 \
-        php7-simplexml
+        php7-simplexml \
+        php7-gd \
+        php7-pecl-apcu
 
 #
 # Unused php extensions
@@ -71,7 +73,7 @@ RUN set -xe \
     #php7-mcrypt \
     #php7-mysqli \
     #php7-soap \
-    #php7-gd \
+    #php7-gd \              used
     #php7-gettext \
 
     # PECL
@@ -86,7 +88,7 @@ RUN set -xe \
     #php7-pecl-redis \
     #php7-pecl-ast \
     #php7-pecl-couchbase \
-    #php7-pecl-apcu \
+    #php7-pecl-apcu \       used
     #php7-pecl-timezonedb \
     #php7-pecl-igbinary \
     #php7-pecl-gmagick \
