@@ -41,15 +41,15 @@ Installed PHP modules:
 * php7-pecl-zmq 
 * php7-pecl-imagick 
 * php7-pecl-xdebug
-* unit-php7 \
-* php7-tokenizer \
-* php7-xmlwriter \
-* php7-session \
-* php7-dom \
-* php7-xml \
-* php7-simplexml \
-* php7-pdo_sqlite \
-* php7-pdo_odbc \
+* unit-php7
+* php7-tokenizer
+* php7-xmlwriter
+* php7-session
+* php7-dom
+* php7-xml
+* php7-simplexml
+* php7-pdo_sqlite
+* php7-pdo_odbc
 * php7-sqlite3
 
 ### Make
