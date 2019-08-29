@@ -1,6 +1,6 @@
-# Пример конфигурации окружения docker приложения laravel
+# Example php application configuration
 
-В директори **php** разместите код laravel приложения
+In the **php** directory, place the application code
 
 ```
 cp php/.env.example php/.env
