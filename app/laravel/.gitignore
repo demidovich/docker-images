@@ -8,10 +8,13 @@ Desktop.ini
 ehthumbs.db
 Thumbs.db
 .vscode
-.idea
 .settings
 .classpath
 .project
 *.sublime-workspace
+/.idea
+/nbproject
+Homestead.json
+Homestead.yaml
 
 docker-compose.yml

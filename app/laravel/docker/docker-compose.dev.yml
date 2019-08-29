@@ -8,14 +8,14 @@ services:
       args:
         UID: 1000
         GID: 1000
-    image: myproject-nginx-dev
-    container_name: myproject-nginx-dev
+    image: "${APP_NAME:-noname}-nginx-dev"
+    container_name: "${APP_NAME:-noname}-nginx-dev"
     ports:
-      - "8081:80"
+      - "8080:8080"
     volumes:
       - ./php:/app
     networks:
-      - myproject_network
+      - "docker_network"
     links:
       - php-fpm
     depends_on:
@@ -28,13 +28,34 @@ services:
       args:
         UID: 1000
         GID: 1000
-    image: myproject-php-fpm-dev
-    container_name: myproject-php-fpm-dev
+    image: "${APP_NAME:-noname}-php-fpm-dev"
+    container_name: "${APP_NAME:-noname}-php-fpm-dev"
     volumes:
       - ./php:/app
+    links:
+      - postgres
     networks:
-      - myproject_network
+      - "docker_network"
+
+  postgres:
+    build:
+      context: ./
+      dockerfile: docker/dev/postgres.Dockerfile
+      args:
+        UID: 1000
+        GID: 1000
+    environment:
+      POSTGRES_DB: yazoo
+      POSTGRES_USER: yazoo
+      POSTGRES_PASSWORD: yazoo
+      PGDATA: /var/lib/postgresql/data/pgdata
+    image: "${APP_NAME:-noname}-postgres-dev"
+    container_name: "${APP_NAME:-noname}-postgres-dev"
+    volumes:
+      - ./var/postgres:/var/lib/postgresql/data/pgdata
+    networks:
+      - "docker_network"
 
 networks:
-  myproject_network:
+  docker_network:
     driver: bridge
