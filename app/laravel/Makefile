@@ -1,5 +1,5 @@
 .DEFAULT_GOAL := help
-APP_NAME=yz-lum
+APP_NAME=my-app
 export APP_NAME
 
 help: ## This help
@@ -41,8 +41,5 @@ ps: ## Status containers
 
 log: ## Container output logs
 	@docker-compose -f docker-compose.yml logs --follow
-
-# request-logs: ## List request logs
-# 	@docker-compose -f docker-compose.yml exec php-fpm ls /app/storage/logs/
 
 default: help

@@ -4,7 +4,7 @@ LABEL Maintainer="dm <dmitrij.demidovich@gmail.com>"
 
 ENV PS1='\[\033[1;32m\]🐳  \[\033[1;36m\][\u@\h] \[\033[1;34m\]\w\[\033[0;35m\] \[\033[1;36m\]# \[\033[0m\]' \
     PATH=/scripts:/scripts/aliases:$PATH \
-    COMPOSER_VERSION=1.8.6 \
+    COMPOSER_VERSION=1.9.0 \
     COMPOSER_SETUP_SHA384='a5c698ffe4b8e849a443b120cd5ba38043260d5c4023dbf93e1558871f1f07f58274fc6f4c93bcfd858c6bd0775cd8d1' \
     COMPOSER_HOME=/composer \
     TZ=${TIMEZONE:-UTC}
@@ -34,6 +34,8 @@ RUN set -xe \
         php7-mbstring \
         php7-zlib \
         php7-sodium \
+        php7-pgsql \
+        php7-mysqlnd \
         php7-pdo \
         php7-pdo_pgsql \
         php7-pdo_mysql \
@@ -55,7 +57,9 @@ RUN set -xe \
         #php7-pdo_sqlite \
         #php7-pdo_odbc \
         #php7-sqlite3 \
-        php7-simplexml
+        php7-simplexml \
+        php7-gd \
+        php7-pecl-apcu
 
 #
 # Unused php extensions
@@ -71,7 +75,7 @@ RUN set -xe \
     #php7-mcrypt \
     #php7-mysqli \
     #php7-soap \
-    #php7-gd \
+    #php7-gd \              used
     #php7-gettext \
 
     # PECL
@@ -86,7 +90,7 @@ RUN set -xe \
     #php7-pecl-redis \
     #php7-pecl-ast \
     #php7-pecl-couchbase \
-    #php7-pecl-apcu \
+    #php7-pecl-apcu \       used
     #php7-pecl-timezonedb \
     #php7-pecl-igbinary \
     #php7-pecl-gmagick \
