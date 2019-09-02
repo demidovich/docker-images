@@ -1,12 +1,12 @@
-FROM demidovich/php-fpm:7.3-alpine
+FROM demidovich/nginx:1.17-alpine
 
 ARG UID=82
 ARG GID=82
 ENV UID=${UID:-82} \
     GID=${GID:-82}
 
-COPY ./docker/dev/php-fpm/www.conf /etc/php7/php-fpm.d/
-COPY ./docker/dev/php-fpm/50-options.ini /etc/php7/conf.d/
+COPY ./docker/nginx/nginx.conf /etc/nginx/nginx.conf
+COPY ./docker/nginx/host.conf /etc/nginx/hosts/host.conf
 
 RUN set -eux \
     # && sed -i "s#%USER_ID%#${UID}#g" "/etc/php7/php-fpm.d/www.conf" \
@@ -17,21 +17,22 @@ RUN set -eux \
     && if [ $GID -ne 82 ]; then \
         groupmod -g $GID www-data; \
     fi \
+    # && chown -R ${UID}:${GID} /var/run/nginx.pid \
+    # && chown -R ${UID}:${GID} /var/cache/nginx \
+    && touch /run/nginx.pid \
     && chown \
         --changes \
         --silent \
         --no-dereference \
         --recursive \
         ${UID}:${GID} \
-        /composer \
-        /var/log/php7
+        /run/nginx.pid \
+        /var/cache/nginx
 
-USER $UID
+# USER $UID
 
 WORKDIR /app
 
-EXPOSE 9000
+EXPOSE 8080
 
-ENTRYPOINT []
-CMD ["php-fpm7", "-F"]
 
