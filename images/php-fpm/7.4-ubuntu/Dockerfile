@@ -46,6 +46,15 @@ RUN apt-get update \
     && php-fpm7.4 -v \
     && php -m
 
+# Xhprof (fork tideways)
+
+RUN \
+    curl -L https://github.com/tideways/php-xhprof-extension/releases/download/v5.0.2/tideways-xhprof_5.0.2_amd64.deb -o /tmp/xhprof.deb \
+    && dpkg -i /tmp/xhprof.deb \
+    && rm /tmp/xhprof.deb \
+    && echo "extension=/usr/lib/tideways_xhprof/tideways_xhprof-7.4.so" > /etc/php/7.4/mods-available/tideways_xhprof.ini \
+    && phpenmod -v 7.4 tideways_xhprof
+
 STOPSIGNAL SIGQUIT
 
 # PHP-FPM packages need a nudge to make them docker-friendly
