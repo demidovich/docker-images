@@ -4,18 +4,20 @@ Based on **ubuntu:bionic**
 
 Fork from **phpdockerio/php74-fpm**
 
-Image size: 175Mb
+Image size: 192Mb
 
 Installed:
 
-* **composer**
+* **PHP extensions**: apcu, apfd, mysql, opcache, pgsql, redis, tideways xhprof, xdebug
+* **composer 1.10.1**
 * **hirak/prestissimo** composer package
-* **PHP extensions**: pgsql, mysql, redis, apcu, opcache, xdebug 
+* **gnu make**
 
 Installed PHP modules:
 
 * apc
 * apcu
+* apfd
 * bcmath
 * calendar
 * Core
@@ -60,6 +62,7 @@ Installed PHP modules:
 * sysvmsg
 * sysvsem
 * sysvshm
+* tideways_xhprof
 * tokenizer
 * xdebug
 * xml
