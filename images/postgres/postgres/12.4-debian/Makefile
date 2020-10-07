@@ -1,5 +1,5 @@
-BUILD_TAG ?= demidovich/postgres:11.5-alpine
-CONTAINER_NAME ?= dm-postgres-alpine-local
+BUILD_TAG ?= demidovich/postgres:12.4-debian
+CONTAINER_NAME ?= dm-postgres-debian-local
 
 .PHONY: Rendering SPA as native HTML for indexation of search crawlers 
 .DEFAULT_GOAL := help
@@ -16,7 +16,7 @@ clear: stop ## Remove image and containers
 
 start: stop ## Start container (15432)
 	@echo Starting container $(CONTAINER_NAME) ;\
-	docker run -d --rm --name $(CONTAINER_NAME) -p 15432:5432 $(BUILD_TAG)
+	docker run --rm --name $(CONTAINER_NAME) -e POSTGRES_PASSWORD=postgres -d $(BUILD_TAG)
 	@docker exec -t $(CONTAINER_NAME) psql -V
 
 status: ## Container status
@@ -34,7 +34,10 @@ stop: ## Stop container
 	fi
 
 shell: ## Shell login
-	docker exec -ti $(CONTAINER_NAME) /bin/sh
+	docker exec --user root -ti $(CONTAINER_NAME) /bin/bash
+
+psql: ## Shell login
+	docker exec --user postgres -ti $(CONTAINER_NAME) psql
 
 push: build ## Publish image
 	@echo
