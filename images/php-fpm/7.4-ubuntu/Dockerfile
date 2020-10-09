@@ -8,7 +8,7 @@ LABEL Maintainer="dm <dmitrij.demidovich@gmail.com>"
 
 ENV PS1='\[\033[1;32m\]🐳  \[\033[1;36m\][\u@\h] \[\033[1;34m\]\w\[\033[0;35m\] \[\033[1;36m\]# \[\033[0m\]' \
     PATH=/scripts:/scripts/aliases:$PATH \
-    COMPOSER_VERSION=1.10.1 \
+    COMPOSER_VERSION=1.10.13 \
     COMPOSER_HOME=/composer \
     TZ=${TIMEZONE:-UTC}
 
