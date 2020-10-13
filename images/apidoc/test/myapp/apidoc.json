@@ -1,0 +1,10 @@
+{
+  "name": "API",
+  "version": "0.1.0",
+  "description": "Myapp",
+  "title": "API Myapp",
+  "url" : "/api/v1",
+  "template" : {
+    "aloneDisplay" : true
+  }
+}
