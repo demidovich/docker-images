@@ -57,6 +57,8 @@ test: ## Test container
 	@docker exec -t $(CONTAINER_NAME) php -r 'echo "PHP CLI: OK";'
 	@echo
 	@echo
+	@docker exec -t $(CONTAINER_NAME) composer -V
+	@echo
 
 v: ## Show PHP-FPM version
 	@docker exec -t $(CONTAINER_NAME) php-fpm7.4 -v
