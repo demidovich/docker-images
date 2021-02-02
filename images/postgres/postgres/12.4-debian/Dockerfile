@@ -15,6 +15,7 @@ RUN set -x \
          postgresql-12-postgis-2.5 \
          postgresql-12-postgis-2.5-scripts \
          postgresql-12-jsquery \
+         pg-activity \
     && rm -rf /var/lib/apt/lists/*
 
 # RUN set -eux \

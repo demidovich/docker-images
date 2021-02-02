@@ -39,6 +39,9 @@ shell: ## Shell login
 psql: ## Shell login
 	docker exec --user postgres -ti $(CONTAINER_NAME) psql
 
+pg_activity: ## PG activity monitor
+	docker exec --user postgres -ti $(CONTAINER_NAME) pg_activity
+
 push: build ## Publish image
 	@echo
 	@docker logout
