@@ -51,27 +51,6 @@ RUN set -xe \
     && docker-php-ext-enable xdebug
 ```
 
-### Install composer
-
-```dockerfile
-FROM demidovich/php-fpm:7.4-alpine
-
-PHP_COMPOSER_VERSION=2.0.9
-
-RUN install-composer $PHP_COMPOSER_VERSION
-```
-
-### Enable Xdebug
-
-The xdebug extension is installed but disabled. 
-
-```dockerfile
-FROM demidovich/php-fpm:7.4-alpine
-
-RUN set -xe \
-    && docker-php-ext-enable xdebug
-```
-
 ### Install Pecl extension
 
 ```dockerfile
