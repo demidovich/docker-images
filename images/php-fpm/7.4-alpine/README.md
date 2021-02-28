@@ -53,7 +53,7 @@ RUN install-composer $PHP_COMPOSER_VERSION
 
 The xdebug extension is installed but disabled. 
 
-```
+```dockerfile
 FROM demidovich/php-fpm:7.4-alpine
 
 RUN set -xe \
@@ -62,7 +62,7 @@ RUN set -xe \
 
 ### Install Pecl extension
 
-```
+```dockerfile
 FROM demidovich/php-fpm:7.4-alpine
 
 RUN set -xe \
@@ -77,7 +77,7 @@ RUN set -xe \
 
 To compile, you need to intall the packages from environment variable $BUILD_DEPS.
 
-```
+```dockerfile
 FROM demidovich/php-fpm:7.4-alpine
 
 PHP_REDIS_VERSION=5.3.3
