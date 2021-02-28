@@ -44,7 +44,7 @@ Added Pecl extensions:
 ```dockerfile
 FROM demidovich/php-fpm:7.4-alpine
 
-PHP_COMPOSER_VERSION=2.0.9
+ENV PHP_COMPOSER_VERSION=2.0.9
 
 RUN set -xe \
     && install-composer $PHP_COMPOSER_VERSION
@@ -71,7 +71,7 @@ To compile, you need to intall the packages from environment variable $BUILD_DEP
 ```dockerfile
 FROM demidovich/php-fpm:7.4-alpine
 
-PHP_REDIS_VERSION=5.3.3
+ENV PHP_REDIS_VERSION=5.3.3
 
 RUN set -xe \
     && apk update \
