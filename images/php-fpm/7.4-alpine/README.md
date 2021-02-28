@@ -39,6 +39,18 @@ Added Pecl extensions:
 * memcached
 * redis
 
+### Example for local development
+
+```dockerfile
+FROM demidovich/php-fpm:7.4-alpine
+
+PHP_COMPOSER_VERSION=2.0.9
+
+RUN set -xe \
+    && install-composer $PHP_COMPOSER_VERSION
+    && docker-php-ext-enable xdebug
+```
+
 ### Install composer
 
 ```dockerfile
