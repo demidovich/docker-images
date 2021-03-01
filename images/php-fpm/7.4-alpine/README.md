@@ -39,16 +39,52 @@ Added Pecl extensions:
 * memcached
 * redis
 
-### Example for local development
+### Example for laravel application
+
+The image contains script **laravel-entrypoint.sh** to start container in different modes. 
+Modes are switched by the CONTAINER_ROLE environment variable.
+
+* app
+* queue
+* scheduler
+
+Caching is enabled by the **APP_CACHE_ENABLE** environment variable. This executes the commands:
+
+* php artisan config:cache
+* php artisan route:cache
+* php artisan view:cache
+
+Example of a Dockerfile for laravel application.
 
 ```dockerfile
 FROM demidovich/php-fpm:7.4-alpine
 
 ENV PHP_COMPOSER_VERSION=2.0.9
 
-RUN set -xe \
-    && install-composer $PHP_COMPOSER_VERSION
-    && docker-php-ext-enable xdebug
+RUN set -eux; \
+    install-composer.sh $PHP_COMPOSER_VERSION; \
+    docker-php-ext-enable xdebug;
+
+ENTRYPOINT ["laravel-entrypoint.sh"]
+```
+
+Start local application:
+
+```shell
+docker run -d \
+    --name myapp_container \
+    --env CONTAINER_ROLE=app \
+    -p 9000:9000 myapp_image php-fpm
+```
+
+Start application in production:
+
+```shell
+docker run -d \
+    --name myapp_container \
+    --env CONTAINER_ROLE=app \
+    --env APP_CACHE_ENABLE=1 \
+    -p 9000:9000 myapp_image php-fpm -d opcache.enable=1
 ```
 
 ### Install Pecl extension
@@ -56,12 +92,12 @@ RUN set -xe \
 ```dockerfile
 FROM demidovich/php-fpm:7.4-alpine
 
-RUN set -xe \
-    && apk update \
-    && apk add --no-cache $PHPIZE_DEPS \
-    && pecl install zmq \
-    && docker-php-ext-enable zmq
-    && apk del $PHPIZE_DEPS
+RUN set -eux; \
+    apk update; \
+    apk add --no-cache $PHPIZE_DEPS; \
+    pecl install zmq; \
+    docker-php-ext-enable zmq; \
+    apk del $PHPIZE_DEPS;
 ```
 
 ### Install extension from source
@@ -73,19 +109,19 @@ FROM demidovich/php-fpm:7.4-alpine
 
 ENV PHP_REDIS_VERSION=5.3.3
 
-RUN set -xe \
-    && apk update \
-    && apk add --no-cache $BUILD_DEPS \
-    && git clone --branch $PHP_REDIS_VERSION https://github.com/phpredis/phpredis /tmp/phpredis \
-    && cd /tmp/phpredis \
-    && phpize  \
-    && ./configure  \
-    && make  \
-    && make install \
-    && make test \
-    && echo 'extension=redis.so' > /usr/local/etc/php/conf.d/redis.ini \
-    && apk del $BUILD_DEPS \
-    && rm -rf /tmp/*
+RUN set -eux; \
+    apk update; \
+    apk add --no-cache $BUILD_DEPS; \
+    git clone --branch $PHP_REDIS_VERSION https://github.com/phpredis/phpredis /tmp/phpredis; \
+    cd /tmp/phpredis; \
+    phpize; \
+    ./configure; \
+    make; \
+    make install; \
+    make test; \
+    echo 'extension=redis.so' > /usr/local/etc/php/conf.d/redis.ini; \
+    apk del $BUILD_DEPS; \
+    rm -rf /tmp/*;
 ```
 
 ### Make

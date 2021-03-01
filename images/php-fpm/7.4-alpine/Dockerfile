@@ -75,40 +75,45 @@ ENV PHP_EXTENSIONS_DEPS \
     postgresql-dev
     # rabbitmq-c-dev
 
-RUN set -xe \
-    && apk update \
-    && apk add --no-cache $RUN_DEPS \
-    && apk add --no-cache $BUILD_DEPS \
-    && apk add --no-cache $PHP_EXTENSIONS_DEPS \
-    && ln -s /usr/lib /usr/local/lib64 \
-    && docker-php-ext-configure intl \
-    && docker-php-ext-configure gd \
+RUN set -eux; \
+    apk update; \
+    apk add --no-cache $RUN_DEPS; \
+    apk add --no-cache $BUILD_DEPS; \
+    apk add --no-cache $PHP_EXTENSIONS_DEPS; \
+    ln -s /usr/lib /usr/local/lib64; \
+    docker-php-ext-configure intl; \
+    docker-php-ext-configure gd \
         --enable-gd \
         --with-jpeg=/usr/include/ \
-        --with-freetype=/usr/include/ \
-    && docker-php-ext-configure pdo_mysql --with-pdo-mysql=mysqlnd \
-    && docker-php-ext-configure mysqli --with-mysqli=mysqlnd \
-    && docker-php-ext-install -j$(nproc) $PHP_EXTENSIONS \
-    && pecl install $PECL_EXTENSIONS \
-    && docker-php-ext-enable $PECL_EXTENSIONS \
-    && apk del $BUILD_DEPS $PHP_EXTENSIONS_DEPS \
+        --with-freetype=/usr/include/; \
+    docker-php-ext-configure pdo_mysql --with-pdo-mysql=mysqlnd; \
+    docker-php-ext-configure mysqli --with-mysqli=mysqlnd; \
+    docker-php-ext-install -j$(nproc) $PHP_EXTENSIONS; \
+    pecl install $PECL_EXTENSIONS; \
+    docker-php-ext-enable \
+        apfd \
+        igbinary \
+        memcached \
+        redis; \
+    apk del $BUILD_DEPS $PHP_EXTENSIONS_DEPS; \
     #
     # Clear
     #
-    && rm -rf /tmp/* \
-    && rm -rf /app \
-    && mkdir /app \
-    && rm -rf /scripts \
-    && mkdir /scripts \
-    && mkdir -p /scripts/aliases
+    rm -rf /tmp/*; \
+    rm -rf /app; \
+    mkdir /app; \
+    rm -rf /scripts; \
+    mkdir /scripts; \
+    mkdir -p /scripts/aliases; \
+    #
+    # Info
+    #
+    php -v; \
+    php-fpm -v; \
+    php -m;
 
-COPY scripts/install-composer /scripts/install-composer
-
-ENTRYPOINT ["docker-php-entrypoint"]
+COPY conf/opcache.ini /usr/local/etc/php/conf.d/opcache.ini
+COPY scripts/install-composer.sh /scripts/install-composer.sh
+COPY scripts/laravel-entrypoint.sh /scripts/laravel-entrypoint.sh
 
 WORKDIR /app
-
-STOPSIGNAL SIGQUIT
-
-EXPOSE 9000
-CMD ["php-fpm"]

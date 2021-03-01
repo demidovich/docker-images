@@ -17,13 +17,13 @@ clear: stop ## Remove image and containers
 
 start: stop ## Start container (19000 port)
 	@echo Starting container $(CONTAINER_NAME) ;\
-	docker run -d --rm --name $(CONTAINER_NAME) -p 19000:9000 $(BUILD_TAG)
+	docker run -d --rm --name $(CONTAINER_NAME) -p 19000:9000 $(BUILD_TAG) php-fpm --nodaemonize
 	@docker exec -t $(CONTAINER_NAME) php -v
 
-start-host: stop ## Start container (9000 port, network host)
+start-app: stop ## Start container with laravel entripoint (19000 port)
 	@echo Starting container $(CONTAINER_NAME) ;\
-	docker run -d --rm --name $(CONTAINER_NAME) --network host -v $(PWD)/conf/hosts:/etc/nginx/hosts -v $(PWD)/test/app:/app $(BUILD_TAG)
-	@docker exec -t $(CONTAINER_NAME) nginx -v
+	docker run -d --rm --name $(CONTAINER_NAME) --env CONTAINER_ROLE=app -p 19000:9000 $(BUILD_TAG) php-fpm --nodaemonize
+	@docker exec -t $(CONTAINER_NAME) php -v
 
 status: ## Container status
 	@if [ $(shell docker ps -a --no-trunc --quiet --filter name=^$(CONTAINER_NAME)$$ | wc -l) -eq 1 ]; then \
