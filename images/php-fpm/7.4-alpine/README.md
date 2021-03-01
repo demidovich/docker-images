@@ -42,7 +42,7 @@ Added Pecl extensions:
 ### Example for laravel application
 
 The image contains script **laravel-entrypoint.sh** to start container in different modes. 
-Modes are switched by the CONTAINER_ROLE environment variable.
+Modes are switched by the **CONTAINER_ROLE** environment variable.
 
 * app
 * queue
@@ -102,7 +102,7 @@ RUN set -eux; \
 
 ### Install extension from source
 
-To compile, you need to intall the packages from environment variable $BUILD_DEPS.
+To compile, you need to intall the packages from environment variable **BUILD_DEPS**.
 
 ```dockerfile
 FROM demidovich/php-fpm:7.4-alpine
@@ -133,7 +133,7 @@ help        This help
 build       Build image
 clear       Remove image and containers
 start       Start container (19000 port)
-start-host  Start container (9000 port, network host)
+start-app   Start container with laravel entripoint (19000 port)
 status      Container status
 stop        Stop container
 shell       Container shell
