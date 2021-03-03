@@ -1,0 +1,31 @@
+; Allows to include or exclude arguments from stack traces generated for exceptions.
+; In production, it is recommended to turn this setting on to prohibit the output 
+; of sensitive information in stack traces
+; Default: Off
+
+
+PHP_ZEND_EXCEPTION_IGNORE_ARGS=Off
+PHP_ZEND_ASSERTIONS=-1
+PHP_ERROR_REPORTING="E_ALL & ~E_DEPRECATED & ~E_STRICT"
+PHP_DISPLAY_ERRORS=On
+PHP_DISPLAY_STARTUP_ERRORS=On
+PHP_MYSQLND_COLLECT_MEMORY_STATISTICS=Off
+
+
+develop                                                 production
+
+                                                        zend.exception_ignore_args = Off
+
+                                                        error_reporting = E_ALL & ~E_DEPRECATED & ~E_STRICT
+                                                        display_errors = Off
+                                                        display_startup_errors = Off
+
+mysqlnd.collect_memory_statistics = On                  mysqlnd.collect_memory_statistics = Off
+
+zend.assertions = 1                                     zend.assertions = -1            
+
+
+; Enables or disables copying of PHP code (text segment) into HUGE PAGES.
+; This should improve performance, but requires appropriate OS configuration.
+
+;opcache.huge_code_pages=0                              ;opcache.huge_code_pages=1
