@@ -4,7 +4,7 @@ Based on **php:7.4.15-fpm-alpine3.13**
 
 Docker hub: https://hub.docker.com/r/demidovich/php-fpm
 
-Image size: 107Mb
+Image size: 108Mb
 
 Added packages:
 
@@ -34,6 +34,7 @@ Added PHP extensions:
 
 Added Pecl extensions:
 
+* apcu
 * apfd
 * igbinary
 * memcached

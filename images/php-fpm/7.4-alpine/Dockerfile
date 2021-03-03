@@ -52,6 +52,7 @@ ENV PHP_EXTENSIONS \
 
 ENV PECL_EXTENSIONS \
     # amqp \
+    apcu \
     apfd \
     igbinary \
     memcached \
@@ -91,6 +92,7 @@ RUN set -eux; \
     docker-php-ext-install -j$(nproc) $PHP_EXTENSIONS; \
     pecl install $PECL_EXTENSIONS; \
     docker-php-ext-enable \
+        apcu \
         apfd \
         igbinary \
         memcached \
