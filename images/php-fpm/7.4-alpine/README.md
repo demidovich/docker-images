@@ -44,9 +44,9 @@ Added Pecl extensions:
 Environment variables:
 
 * **CONTAINER_ROLE** (default app)
-* **APP_CACHE_ENABLE** (default 0)
-* **STDOUT** (default /proc/1/fd/1)
-* **STDERR** (default /proc/1/fd/2)
+* **CONTAINER_STDOUT** (default /proc/1/fd/1)
+* **CONTAINER_STDERR** (default /proc/1/fd/2)
+* **LARAVEL_CACHE_ENABLE** (default 0)
 
 The image contains script **laravel-entrypoint.sh** to start container in different modes. 
 Modes are switched by the **CONTAINER_ROLE** environment variable.
@@ -55,7 +55,7 @@ Modes are switched by the **CONTAINER_ROLE** environment variable.
 * queue
 * scheduler
 
-Caching is enabled by the **APP_CACHE_ENABLE** environment flag. This executes the commands:
+**LARAVEL_CACHE_ENABLE** environment flag. This executes the commands:
 
 * php artisan config:cache
 * php artisan route:cache
@@ -90,7 +90,7 @@ Start application in production:
 docker run -d \
     --name myapp_container \
     --env CONTAINER_ROLE=app \
-    --env APP_CACHE_ENABLE=1 \
+    --env LARAVEL_CACHE_ENABLE=1 \
     -p 9000:9000 myapp_image php-fpm -d opcache.enable=1
 ```
 
