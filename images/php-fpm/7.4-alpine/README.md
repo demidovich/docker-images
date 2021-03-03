@@ -39,7 +39,14 @@ Added Pecl extensions:
 * memcached
 * redis
 
-### Example for laravel application
+### This image for laravel application
+
+Environment variables:
+
+* **CONTAINER_ROLE** (default app)
+* **APP_CACHE_ENABLE** (default 0)
+* **STDOUT** (default /proc/1/fd/1)
+* **STDERR** (default /proc/1/fd/2)
 
 The image contains script **laravel-entrypoint.sh** to start container in different modes. 
 Modes are switched by the **CONTAINER_ROLE** environment variable.
@@ -48,13 +55,13 @@ Modes are switched by the **CONTAINER_ROLE** environment variable.
 * queue
 * scheduler
 
-Caching is enabled by the **APP_CACHE_ENABLE** environment variable. This executes the commands:
+Caching is enabled by the **APP_CACHE_ENABLE** environment flag. This executes the commands:
 
 * php artisan config:cache
 * php artisan route:cache
 * php artisan view:cache
 
-Example of a Dockerfile for laravel application.
+Example of a Dockerfile for laravel application:
 
 ```dockerfile
 FROM demidovich/php-fpm:7.4-alpine
