@@ -61,7 +61,7 @@ Modes are switched by the **CONTAINER_ROLE** environment variable.
 * php artisan route:cache
 * php artisan view:cache
 
-Example of a Dockerfile for laravel application:
+Example of a development laravel application:
 
 ```dockerfile
 FROM demidovich/php-fpm:7.4-alpine
@@ -70,12 +70,11 @@ ENV PHP_COMPOSER_VERSION=2.0.9
 
 RUN set -eux; \
     install-composer.sh $PHP_COMPOSER_VERSION; \
-    docker-php-ext-enable xdebug;
+    docker-php-ext-enable xdebug; \
+    mv "$PHP_INI_DIR/php.ini-development" "$PHP_INI_DIR/php.ini";
 
 ENTRYPOINT ["laravel-entrypoint.sh"]
 ```
-
-Start local application:
 
 ```shell
 docker run -d \
@@ -84,7 +83,20 @@ docker run -d \
     -p 9000:9000 myapp_image php-fpm
 ```
 
-Start application in production:
+Example of a production laravel application:
+
+```dockerfile
+FROM demidovich/php-fpm:7.4-alpine
+
+ENV PHP_COMPOSER_VERSION=2.0.9
+
+RUN set -eux; \
+    install-composer.sh $PHP_COMPOSER_VERSION; \
+    docker-php-ext-enable xdebug; \
+    mv "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini";
+
+ENTRYPOINT ["laravel-entrypoint.sh"]
+```
 
 ```shell
 docker run -d \
