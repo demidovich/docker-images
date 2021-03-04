@@ -2,11 +2,11 @@
 set -e
 
 CONTAINER_ROLE="${CONTAINER_ROLE:-app}"
-APP_CACHE_ENABLE="${APP_CACHE_ENABLE:-0}"
-STDOUT="${STDOUT:-/proc/1/fd/1}";
-STDERR="${STDERR:-/proc/1/fd/2}";
+CONTAINER_STDOUT="${CONTAINER_STDOUT:-/proc/1/fd/1}";
+CONTAINER_STDERR="${CONTAINER_STDERR:-/proc/1/fd/2}";
+LARAVEL_CACHE_ENABLE="${LARAVEL_CACHE_ENABLE:-0}"
 
-if [ "$APP_CACHE_ENABLE" = "1" ] || ["$APP_CACHE_ENABLE" = "On"] || ["$APP_CACHE_ENABLE" = "on"]; then
+if [ "$LARAVEL_CACHE_ENABLE" = "1" ] || ["$LARAVEL_CACHE_ENABLE" = "On"] || ["$LARAVEL_CACHE_ENABLE" = "on"]; then
     echo "Caching configuration..."
     (php "$@" artisan config:cache && php "$@" artisan route:cache && php "$@" artisan view:cache)
 else
@@ -22,7 +22,7 @@ if [ "$CONTAINER_ROLE" = "app" ]; then
 
 elif [ "$CONTAINER_ROLE" = "queue" ]; then
 	echo "Running the queue..."
-	php "$@" artisan queue:work --verbose --tries=3 --timeout=90 > ${STDOUT} 2> ${STDERR}
+	php "$@" artisan queue:work --verbose --tries=3 --timeout=90 > ${CONTAINER_STDOUT} 2> ${CONTAINER_STDERR}
 
 elif [ "$CONTAINER_ROLE" = "scheduler" ]; then
 	echo "START SCHEDULER CONTAINER ROLE"
@@ -33,7 +33,7 @@ elif [ "$CONTAINER_ROLE" = "scheduler" ]; then
     sleep 2
     while [ true ]
     do
-      php "$@" artisan schedule:run --verbose --no-interaction > ${STDOUT} 2> ${STDERR} &
+      php "$@" artisan schedule:run --verbose --no-interaction > ${CONTAINER_STDOUT} 2> ${CONTAINER_STDERR} &
       sleep 60
     done
 
