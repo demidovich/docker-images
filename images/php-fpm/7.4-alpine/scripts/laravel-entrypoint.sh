@@ -10,22 +10,22 @@ if [ "$LARAVEL_CACHE_ENABLE" = "1" ] || ["$LARAVEL_CACHE_ENABLE" = "On"] || ["$L
     echo "Caching configuration..."
     (php "$@" artisan config:cache && php "$@" artisan route:cache && php "$@" artisan view:cache)
 else
-	echo "Clear configuration caching..."
-	(php "$@" artisan config:clear && php "$@" artisan route:clear && php "$@" artisan view:clear && php "$@" artisan cache:clear)
+    echo "Clear configuration caching..."
+    (php "$@" artisan config:clear && php "$@" artisan route:clear && php "$@" artisan view:clear && php "$@" artisan cache:clear)
 fi
 
 if [ "$CONTAINER_ROLE" = "app" ]; then
-	if [ "${1#-}" != "$1" ]; then
-		set -- php-fpm "$@"
-	fi
-	exec "$@"
+    if [ "${1#-}" != "$1" ]; then
+        set -- php-fpm "$@"
+    fi
+    exec "$@"
 
 elif [ "$CONTAINER_ROLE" = "queue" ]; then
-	echo "Running the queue..."
-	php "$@" artisan queue:work --verbose --tries=3 --timeout=90 > ${CONTAINER_STDOUT} 2> ${CONTAINER_STDERR}
+    echo "Running the queue..."
+    php "$@" artisan queue:work --verbose --tries=3 --timeout=90 > ${CONTAINER_STDOUT} 2> ${CONTAINER_STDERR}
 
 elif [ "$CONTAINER_ROLE" = "scheduler" ]; then
-	echo "START SCHEDULER CONTAINER ROLE"
+    echo "START SCHEDULER CONTAINER ROLE"
     echo "[ Info ] Delay between executions: 60"
     echo "[ Info ] Press [CTRL+C] to stop"
     trap "echo SIGHUP" HUP
@@ -33,8 +33,8 @@ elif [ "$CONTAINER_ROLE" = "scheduler" ]; then
     sleep 2
     while [ true ]
     do
-      php "$@" artisan schedule:run --verbose --no-interaction > ${CONTAINER_STDOUT} 2> ${CONTAINER_STDERR} &
-      sleep 60
+        php "$@" artisan schedule:run --verbose --no-interaction > ${CONTAINER_STDOUT} 2> ${CONTAINER_STDERR} &
+        sleep 60
     done
 
 else 
