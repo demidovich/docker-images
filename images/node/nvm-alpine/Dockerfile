@@ -36,7 +36,8 @@ RUN set -xe; \
 USER node
 RUN set -x; \
     touch ~/.bashrc; \
-    curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.38.0/install.sh | /bin/bash
+    curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.38.0/install.sh | /bin/bash; \
+    source ~/.bashrc
 COPY ./conf/.gitconfig /home/node
 
 USER root
