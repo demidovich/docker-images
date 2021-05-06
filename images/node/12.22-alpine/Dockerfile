@@ -12,8 +12,7 @@ RUN set -x; \
         bash \
         ca-certificates \
         openssl \
-        openssh-client \
-        mc; \
+        openssh-client; \
     echo "StrictHostKeyChecking no" >> /etc/ssh/ssh_config; \
     useradd node; \
     usermod -u $UID node; \
