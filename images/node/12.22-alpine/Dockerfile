@@ -20,5 +20,3 @@ RUN set -x; \
     chown -R $UID:$GID /home/node
 
 COPY --chown=node:node ./conf/.gitconfig /home/node
-
-USER $UID
