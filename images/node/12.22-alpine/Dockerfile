@@ -17,13 +17,8 @@ RUN set -x; \
     useradd node; \
     usermod -u $UID node; \
     groupmod -g $GID node; \
-    chown -R $UID:$GID /home/node; \
-    git --version; \
-    bash --version; \
-    npm -v; \
-    node -v
+    chown -R $UID:$GID /home/node
 
 COPY --chown=node:node ./conf/.gitconfig /home/node
 
 USER $UID
-
