@@ -6,4 +6,5 @@ RUN set -x; \
     apk add --update --no-cache \
         docker-compose \
         make \
-        bash
+        bash \
+        git
