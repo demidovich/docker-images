@@ -6,7 +6,15 @@ CONTAINER_STDOUT="${CONTAINER_STDOUT:-/proc/1/fd/1}";
 CONTAINER_STDERR="${CONTAINER_STDERR:-/proc/1/fd/2}";
 LARAVEL_CACHE_ENABLE="${LARAVEL_CACHE_ENABLE:-0}"
 
-if [ "$LARAVEL_CACHE_ENABLE" = "1" ] || ["$LARAVEL_CACHE_ENABLE" = "On"] || ["$LARAVEL_CACHE_ENABLE" = "on"]; then
+if [ "$LARAVEL_CACHE_ENABLE" = "'On" ]; then
+    LARAVEL_CACHE_ENABLE="1"
+fi
+
+if [ "$LARAVEL_CACHE_ENABLE" = "on" ]; then
+    LARAVEL_CACHE_ENABLE="1"
+fi
+
+if [ "$LARAVEL_CACHE_ENABLE" = "1" ]; then
     echo "Caching configuration..."
     (php "$@" artisan config:cache && php "$@" artisan route:cache && php "$@" artisan view:cache)
 else
@@ -15,9 +23,6 @@ else
 fi
 
 if [ "$CONTAINER_ROLE" = "app" ]; then
-    if [ "${1#-}" != "$1" ]; then
-        set -- php-fpm "$@"
-    fi
     exec "$@"
 
 elif [ "$CONTAINER_ROLE" = "queue" ]; then

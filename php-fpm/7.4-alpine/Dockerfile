@@ -116,6 +116,6 @@ RUN set -eux; \
 
 COPY conf/opcache.ini /usr/local/etc/php/conf.d/opcache.ini
 COPY scripts/install-composer.sh /scripts/install-composer.sh
-COPY scripts/laravel-entrypoint.sh /scripts/laravel-entrypoint.sh
+COPY scripts/scheduler.sh /scripts/scheduler.sh
 
 WORKDIR /app

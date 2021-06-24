@@ -40,27 +40,46 @@ Added Pecl extensions:
 * memcached
 * redis
 
-### This image for laravel application
+Added scripts:
 
-Environment variables:
+* /scripts/install-composer.sh
+* /scripts/scheduler.sh
 
-* **CONTAINER_ROLE** (default app)
-* **CONTAINER_STDOUT** (default /proc/1/fd/1)
-* **CONTAINER_STDERR** (default /proc/1/fd/2)
-* **LARAVEL_CACHE_ENABLE** (default 0)
+### Usage
 
-The image contains script **laravel-entrypoint.sh** to start container in different modes. 
-Modes are switched by the **CONTAINER_ROLE** environment variable.
+The image can be used for a web application, a queue worker, and a job scheduler.
 
-* app
-* queue
-* scheduler
+Example of a docker-compose file for Laravel application.
 
-**LARAVEL_CACHE_ENABLE** environment flag. This executes the commands:
+```
+version: "3"
 
-* php artisan config:cache
-* php artisan route:cache
-* php artisan view:cache
+services:
+
+  app:
+    image: "demidovich/php-fpm:7.4-alpine"
+    container_name: "dm-fpm74-alpine-app"
+    environment:
+      LARAVEL_CACHE_ENABLE: 0
+    volumes:
+      - ./php:/app
+
+  queue:
+    image: "demidovich/php-fpm:7.4-alpine"
+    container_name: "dm-fpm74-alpine-queue"
+    environment:
+      LARAVEL_CACHE_ENABLE: 0
+    volumes:
+      - ./php:/app
+    command: php /app/artisan queue:work
+
+  scheduler:
+    image: "demidovich/php-fpm:7.4-alpine"
+    container_name: "dm-fpm74-alpine-scheduler"
+    volumes:
+      - ./php:/app
+    command: /scripts/scheduler.sh "php /app/artisan schedule:run --verbose --no-interaction"
+```
 
 Example of a development laravel application:
 
@@ -73,14 +92,11 @@ RUN set -eux; \
     install-composer.sh $PHP_COMPOSER_VERSION; \
     docker-php-ext-enable xdebug; \
     mv "$PHP_INI_DIR/php.ini-development" "$PHP_INI_DIR/php.ini";
-
-ENTRYPOINT ["laravel-entrypoint.sh"]
 ```
 
 ```shell
 docker run -d \
     --name myapp_container \
-    --env CONTAINER_ROLE=app \
     -p 9000:9000 myapp_image php-fpm
 ```
 
@@ -95,15 +111,11 @@ RUN set -eux; \
     install-composer.sh $PHP_COMPOSER_VERSION; \
     docker-php-ext-enable xdebug; \
     mv "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini";
-
-ENTRYPOINT ["laravel-entrypoint.sh"]
 ```
 
 ```shell
 docker run -d \
     --name myapp_container \
-    --env CONTAINER_ROLE=app \
-    --env LARAVEL_CACHE_ENABLE=1 \
     -p 9000:9000 myapp_image php-fpm -d opcache.enable=1
 ```
 
