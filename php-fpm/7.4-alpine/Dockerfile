@@ -115,7 +115,6 @@ RUN set -eux; \
     php -m;
 
 COPY conf/opcache.ini /usr/local/etc/php/conf.d/opcache.ini
-COPY scripts/install-composer.sh /scripts/install-composer.sh
-COPY scripts/scheduler.sh /scripts/scheduler.sh
+COPY scripts/ /scripts/
 
 WORKDIR /app
