@@ -10,13 +10,15 @@ LABEL org.label-schema.name="apidoc" \
     org.label-schema.docker.cmd="docker run --rm -v $(pwd):/home/node/apidoc apidoc/apidoc -o outputdir -i inputdir"
 
 ENV NPM_CONFIG_PREFIX=/home/node/.npm-global
-
 ENV PATH=$PATH:/home/node/.npm-global/bin
 
+RUN set -eux; \
+    apk add --update --no-cache shadow; \
+    rm -rf /var/cache/apk/*; \
+    rm -rf /tmp/*
+
 USER node
-
 RUN mkdir -p /home/node/apidoc
-
 WORKDIR /home/node/apidoc
 
 RUN npm install --only=prod -g apidoc
