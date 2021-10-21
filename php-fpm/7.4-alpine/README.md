@@ -16,12 +16,14 @@ Added packages:
 * libzip
 * postgresql-libs
 * shadow
+* zip
 * zlib
 
 Added PHP extensions:
 
 * bcmath
 * bz2
+* exif
 * gd
 * iconv
 * mbstring
@@ -31,6 +33,7 @@ Added PHP extensions:
 * pgsql
 * sockets
 * xsl
+* zip
 
 Added Pecl extensions:
 

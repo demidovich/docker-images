@@ -38,6 +38,7 @@ ENV RUN_DEPS \
 ENV PHP_EXTENSIONS \
     bcmath \
     bz2 \
+    exif \
     # gettext \
     gd \
     iconv \
@@ -48,7 +49,8 @@ ENV PHP_EXTENSIONS \
     pdo_pgsql \
     pgsql \
     sockets \
-    xsl
+    xsl \
+    zip
 
 ENV PECL_EXTENSIONS \
     # amqp \
@@ -73,8 +75,10 @@ ENV PHP_EXTENSIONS_DEPS \
     libxslt-dev \
     oniguruma-dev \
     pcre-dev \
-    postgresql-dev
-    # rabbitmq-c-dev
+    postgresql-dev \
+    # rabbitmq-c-dev \
+    libzip-dev \
+    zip
 
 RUN set -eux; \
     apk update; \
@@ -94,9 +98,11 @@ RUN set -eux; \
     docker-php-ext-enable \
         apcu \
         apfd \
+        exif \
         igbinary \
         memcached \
-        redis; \
+        redis \
+        zip; \
     apk del $BUILD_DEPS $PHP_EXTENSIONS_DEPS; \
     #
     # Clear
