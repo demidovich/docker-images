@@ -1,10 +1,10 @@
-# Postgresql 11.5
+# Postgresql 12.4 debian
 
-Based on **postgres:11.5-alpine**
+Based on **postgres:12.4**
 
 Docker hub: https://hub.docker.com/r/demidovich/postgres
 
-Image size: 75Mb
+Image size: 522Mb
 
 Changes:
 
