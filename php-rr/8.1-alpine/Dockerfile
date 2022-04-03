@@ -1,6 +1,11 @@
-FROM ghcr.io/roadrunner-server/roadrunner:2.8.8 AS roadrunner
+# FROM composer:2.2.10 as composer
+FROM spiralscout/roadrunner:2.8.8 as roadrunner
 
-FROM php:8.1.4-cli-alpine3.15
+FROM php:8.1-cli-alpine3.14
+
+# COPY --from=composer /usr/bin/composer /usr/bin/composer
+COPY --from=roadrunner /usr/bin/rr /usr/bin/rr
+COPY --from=roadrunner /etc/rr.yaml /etc/rr/rr.dist.yaml
 
 LABEL Maintainer="dm <dmitrij.demidovich@gmail.com>"
 
@@ -82,9 +87,6 @@ ENV PHP_EXTENSIONS_DEPS \
     libzip-dev \
     zip
 
-COPY --from=roadrunner /usr/bin/rr /usr/local/bin/rr
-COPY --from=roadrunner /etc/rr.yaml /etc/rr.yaml
-
 RUN set -eux; \
     apk update; \
     apk add --no-cache $RUN_DEPS; \
@@ -114,24 +116,25 @@ RUN set -eux; \
     #
     rm -rf /tmp/*; \
     rm -rf /app; \
-    mkdir /app; \
+    #
+    # System sirectories
+    #
     rm -rf /scripts; \
-    mkdir /scripts; \
-    mkdir -p /scripts/aliases; \
+    mkdir -p \
+        /app \
+        /scripts/aliases \
+        /etc/rr \
+        /var/run/rr; \
     #
     # Info
     #
     php -v; \
-    php -m; \
-    rr -h
+    php -m;
 
-COPY conf/rr.yaml /app/.rr.yaml
 COPY conf/opcache.ini /usr/local/etc/php/conf.d/opcache.ini
 COPY scripts/ /scripts/
 
 WORKDIR /app
 
-ENTRYPOINT ["/scripts/app-entrypoint.sh"]
-
-CMD ["rr", "serve"]
-# CMD ["rr", "serve", "-c", "/app/.rr.yml"]
+# unset default image entrypoint
+ENTRYPOINT []

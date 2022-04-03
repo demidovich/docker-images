@@ -1,8 +1,8 @@
-# PHPcli 8.1 Apline 3.14
+# PHP 8.1 Roadrunner 2.8.8 Apline 3.14
 
 Based on **php:8.1-cli-alpine3.14**
 
-Docker hub: https://hub.docker.com/r/demidovich/php-cli
+Docker hub: https://hub.docker.com/r/demidovich/php-rr
 
 Image size: 120Mb
 
