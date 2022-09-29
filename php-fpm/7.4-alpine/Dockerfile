@@ -43,6 +43,7 @@ ENV PHP_EXTENSIONS \
     gd \
     iconv \
     # intl \
+    pcntl \
     mbstring \
     pdo \
     pdo_mysql \
