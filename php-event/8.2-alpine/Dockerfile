@@ -1,4 +1,4 @@
-FROM php:7.4.15-fpm-alpine3.13
+FROM php:8.2-cli-alpine3.16
 
 LABEL Maintainer="dm <dmitrij.demidovich@gmail.com>"
 
@@ -19,12 +19,14 @@ ENV BUILD_DEPS \
     libc-dev \
     make \
     pkgconf \
-    re2c
+    re2c \
+    linux-headers
 
 ENV RUN_DEPS \
     freetype \
     # icu-libs \
     # libintl \
+    libevent \
     libjpeg-turbo \
     libmemcached \
     libpng \
@@ -41,15 +43,16 @@ ENV PHP_EXTENSIONS \
     exif \
     # gettext \
     gd \
-    iconv \
+    # iconv \
     # intl \
-    pcntl \
     mbstring \
+    pcntl \
     pdo \
     pdo_mysql \
     pdo_pgsql \
     pgsql \
     sockets \
+    sysvsem \
     xsl \
     zip
 
@@ -69,6 +72,7 @@ ENV PHP_EXTENSIONS_DEPS \
     # gettext-dev \
     # icu-dev \
     libevent-dev \
+    openssl-dev \
     libjpeg-turbo-dev \
     libmemcached-dev \
     libpng-dev  \
@@ -95,7 +99,18 @@ RUN set -eux; \
     docker-php-ext-configure pdo_mysql --with-pdo-mysql=mysqlnd; \
     docker-php-ext-configure mysqli --with-mysqli=mysqlnd; \
     docker-php-ext-install -j$(nproc) $PHP_EXTENSIONS; \
+    pecl update-channels; \
     pecl install $PECL_EXTENSIONS; \
+    pecl install --configureoptions ' \
+            enable-event-debug="no" \
+            enable-event-sockets="yes" \
+            with-event-libevent-dir="/usr" \
+            with-event-pthreads="no" \
+            with-event-extra="yes" \
+            with-event-openssl="yes" \
+            with-event-ns="no" \
+            with-openssl-dir="yes" \
+        ' event; \
     docker-php-ext-enable \
         apcu \
         apfd \
@@ -103,7 +118,9 @@ RUN set -eux; \
         igbinary \
         memcached \
         redis \
-        zip; \
+        zip \
+        sockets \
+        --ini-name zz-event.ini event; \
     apk del $BUILD_DEPS $PHP_EXTENSIONS_DEPS; \
     #
     # Clear
@@ -118,7 +135,6 @@ RUN set -eux; \
     # Info
     #
     php -v; \
-    php-fpm -v; \
     php -m;
 
 COPY conf/opcache.ini /usr/local/etc/php/conf.d/opcache.ini
