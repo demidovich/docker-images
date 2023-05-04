@@ -1,10 +1,10 @@
-# PHPfpm 8.2 Apline 3.14
+# PHPfpm 8.2 Apline 3.17
 
-Based on **php:8.2-fpm-alpine3.14**
+Based on **php:8.2-fpm-alpine3.17**
 
 Docker hub: https://hub.docker.com/r/demidovich/php-fpm
 
-Image size: 120Mb
+Image size: 107Mb
 
 Added packages:
 
