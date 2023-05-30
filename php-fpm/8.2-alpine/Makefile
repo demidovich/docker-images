@@ -1,5 +1,5 @@
 BUILD_TAG ?= demidovich/php-fpm:8.2-alpine
-CONTAINER_NAME ?= dm-fpm81-alpine-local
+CONTAINER_NAME ?= dm-fpm82-alpine-local
 APP_DIR ?= $(PWD)/test/app
 
 .PHONY: Rendering SPA as native HTML for indexation of search crawlers 

@@ -61,7 +61,7 @@ services:
 
   app:
     image: "demidovich/php-fpm:8.2-alpine"
-    container_name: "dm-fpm81-alpine-app"
+    container_name: "dm-fpm82-alpine-app"
     environment:
       LARAVEL_CACHE_ENABLE: 0
     volumes:
@@ -69,7 +69,7 @@ services:
 
   queue:
     image: "demidovich/php-fpm:8.2-alpine"
-    container_name: "dm-fpm81-alpine-queue"
+    container_name: "dm-fpm82-alpine-queue"
     environment:
       LARAVEL_CACHE_ENABLE: 0
     volumes:
@@ -78,7 +78,7 @@ services:
 
   scheduler:
     image: "demidovich/php-fpm:8.2-alpine"
-    container_name: "dm-fpm81-alpine-scheduler"
+    container_name: "dm-fpm82-alpine-scheduler"
     volumes:
       - ./php:/app
     command: /scripts/scheduler.sh "php /app/artisan schedule:run --verbose --no-interaction"
