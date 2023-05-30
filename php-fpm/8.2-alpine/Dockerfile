@@ -30,6 +30,7 @@ ENV RUN_DEPS \
     libjpeg-turbo \
     libmemcached \
     libpng \
+    libwebp \
     libxslt \
     libzip \
     postgresql-libs \
