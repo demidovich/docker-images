@@ -1,5 +1,4 @@
-# Dockerfile for apidoc
-FROM node:12-alpine
+FROM node:19-alpine
 
 LABEL org.label-schema.name="apidoc" \
     org.label-schema.description="apidoc Docker image" \
@@ -21,6 +20,6 @@ USER node
 RUN mkdir -p /home/node/apidoc
 WORKDIR /home/node/apidoc
 
-RUN npm install --only=prod -g apidoc
+RUN npm install --only=prod -g apidoc@1.0.2 apidoc-markdown@7.2.5
 
 ENTRYPOINT ["apidoc"]

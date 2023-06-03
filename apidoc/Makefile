@@ -1,4 +1,4 @@
-IMAGE_NAME ?= demidovich/apidoc:alpine
+IMAGE_NAME ?= demidovich/apidoc:1.0.2
 CONTAINER_NAME ?= apidoc-alpine-local
 
 .PHONY: Rendering SPA as native HTML for indexation of search crawlers 
