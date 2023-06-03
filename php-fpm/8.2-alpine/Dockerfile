@@ -30,6 +30,7 @@ ENV RUN_DEPS \
     libjpeg-turbo \
     libmemcached \
     libpng \
+    libwebp \
     libxslt \
     libzip \
     postgresql-libs \
@@ -74,6 +75,7 @@ ENV PHP_EXTENSIONS_DEPS \
     libjpeg-turbo-dev \
     libmemcached-dev \
     libpng-dev  \
+    libwebp-dev \
     libxml2-dev \
     libxslt-dev \
     oniguruma-dev \
@@ -93,6 +95,7 @@ RUN set -eux; \
     docker-php-ext-configure gd \
         --enable-gd \
         --with-jpeg=/usr/include/ \
+        --with-webp=/usr/include/ \
         --with-freetype=/usr/include/; \
     docker-php-ext-configure pdo_mysql --with-pdo-mysql=mysqlnd; \
     docker-php-ext-configure mysqli --with-mysqli=mysqlnd; \
